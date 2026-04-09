@@ -8,10 +8,25 @@ from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.prompts import ChatPromptTemplate,MessagesPlaceholder
 import numpy as np
 import os
+import re
 
 ut_api=YouTubeTranscriptApi() 
 
-video_id='mrhccLHtyN4' 
+def extract_video_id(url):
+    pattern=r'(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})'
+    
+    match=re.search(pattern,url)
+    if match:
+        return match.group(1)
+    return None
+
+user_input = input("Paste your YouTube URL: ")
+video_id = extract_video_id(user_input)
+
+if not video_id:
+    print("Error: That doesn't look like a valid YouTube link!")
+else:
+    print(f"Success! Processing Video ID: {video_id}")
 
 try: 
     transcript_fetch=ut_api.fetch(video_id,languages=['en','hi']) 
