@@ -1,0 +1,14 @@
+google-api-python-client
+youtube-transcript-api
+langchain
+langchain-community
+langchain-core
+langchain-text-splitters
+python-dotenv
+openai-whisper
+sentence-transformers
+faiss-cpu
+langchain-ollama
+transformers
+huggingface_hub
+langchain-huggingface
