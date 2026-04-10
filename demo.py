@@ -44,24 +44,9 @@ for details in transcript_fetch:
                     'start':start, 
                     'end':end 
                 })
-        
-merged_docs = [] 
-chunk_size = 40
-step_size = 20 
-for i in range(0, len(fetch_list), step_size): 
-    chunk = fetch_list[i:i+chunk_size] 
-    if not chunk: 
-        continue 
-    text = " ".join(item['text'] for item in chunk) 
-            
-    start = chunk[0]['start'] 
-    end = chunk[-1]['end'] 
-    merged_docs.append({ 'text': text, 
-                        'start': start, 
-                        'end': end })
     
 docs=[] 
-for item in merged_docs:
+for item in fetch_list:
     doc=Document( 
                  page_content= item['text'],
                  metadata={ 'start':item['start'], 
@@ -73,7 +58,7 @@ chunks = splitter.split_documents(docs)
 
 embedding= OllamaEmbeddings(model='nomic-embed-text-v2-moe:latest')
 
-FAISS_INDEX_DIR = "faiss_index"
+FAISS_INDEX_DIR = f"faiss_index_{video_id}"
 if os.path.exists(FAISS_INDEX_DIR):
     vector_store = FAISS.load_local(
         FAISS_INDEX_DIR,
